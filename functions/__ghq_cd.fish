@@ -1,8 +1,8 @@
 function __ghq_cd
-    commandline | read -l buffer
-    ghq list --full-path | sed -e "s|$HOME/||g" | fzf --query "$buffer" | read -l repository_path
-    if test -n "$repository_path"
-        commandline "cd ~/$repository_path"
+    set -l buffer (commandline)
+    set -l repo_path (ghq list -p | sed -e "s|$HOME/||g" | fzf -q "$buffer")
+    if test -n "$repo_path"
+        commandline "cd ~/$repo_path"
         commandline -f execute
     end
     commandline -f repaint
